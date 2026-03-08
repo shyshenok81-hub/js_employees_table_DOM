@@ -33,8 +33,8 @@ function sortTable(colIndex, dir) {
     }
 
     if (colIndex === 4) {
-      aText = Number(aText.replace(/[$,]g/, ''));
-      bText = Number(bText.replace(/[$,]g/, ''));
+      aText = Number(aText.replace(/[$,]/g, ''));
+      bText = Number(bText.replace(/[$,]/g, ''));
     }
 
     if (aText > bText) {
@@ -106,7 +106,7 @@ Salary:
 
 <button type="submit">Save to table</button>`;
 
-document.body.prepend('form');
+document.body.prepend(form);
 
 function showNotification(text, type) {
   const notification = document.createElement('div');
