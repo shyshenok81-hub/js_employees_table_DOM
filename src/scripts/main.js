@@ -33,8 +33,8 @@ function sortTable(colIndex, dir) {
     }
 
     if (colIndex === 4) {
-      aText = Number(aText.replace(/[$,]/g, ''));
-      bText = Number(bText.replace(/[$,]/g, ''));
+      aText = Number(aText.replace(/[$,]g/, ''));
+      bText = Number(bText.replace(/[$,]g/, ''));
     }
 
     if (aText > bText) {
@@ -104,10 +104,9 @@ Salary:
 <input name="salary" type="number" data-qa="salary">
 </label>
 
-<button type="submit">Save to table</button>
-`;
+<button type="submit">Save to table</button>`;
 
-document.body.prepend(form);
+document.body.prepend('form');
 
 function showNotification(text, type) {
   const notification = document.createElement('div');
@@ -126,20 +125,26 @@ form.addEventListener('submit', (evt) => {
 
   const formData = new FormData(form);
 
-  const nameEvt = formData.get('name').trim();
+  const nameEmp = formData.get('name').trim();
   const position = formData.get('position').trim();
   const office = formData.get('office');
   const age = Number(formData.get('age'));
   const salary = Number(formData.get('salary'));
 
-  if (nameEvt.length < 4) {
-    showNotification('Name too short', 'error');
+  if (!nameEmp || !position || !office || !age || !salary) {
+    showNotification('All fields must be filled', 'error');
+
+    return;
+  }
+
+  if (nameEmp.length < 4) {
+    showNotification('Name must contain at least 4 characters', 'error');
 
     return;
   }
 
   if (age < 18 || age > 90) {
-    showNotification('Invalid age', 'error');
+    showNotification('Age must be between 18 and 90', 'error');
 
     return;
   }
@@ -147,16 +152,16 @@ form.addEventListener('submit', (evt) => {
   const tr = document.createElement('tr');
 
   tr.innerHTML = `
-<td>${nameEvt}</td>
-<td>${position}</td>
-<td>${office}</td>
-<td>${age}</td>
-<td>$${salary.toLocaleString()}</td>
-`;
+    <td>${nameEmp}</td>
+    <td>${position}</td>
+    <td>${office}</td>
+    <td>${age}</td>
+    <td>$${salary.toLocaleString()}</td>
+  `;
 
   tbody.append(tr);
 
-  showNotification('Employee added', 'success');
+  showNotification('Employee successfully added', 'success');
 
   form.reset();
 });
